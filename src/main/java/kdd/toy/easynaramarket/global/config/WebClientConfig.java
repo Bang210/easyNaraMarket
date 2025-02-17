@@ -10,7 +10,7 @@ public class WebClientConfig {
     @Bean
     public WebClient webClient() {
         return WebClient.builder()
-                .baseUrl("http://apis.data.go.kr/1230000/ad/BidPublicInfoService")
+                .baseUrl("https://apis.data.go.kr/1230000/ad/BidPublicInfoService")
                 .build();
     }
 }

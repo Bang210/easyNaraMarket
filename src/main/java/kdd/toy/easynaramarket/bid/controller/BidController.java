@@ -15,6 +15,6 @@ public class BidController {
 
     @GetMapping("/getBidList")
     public String getBidList() {
-        return "bidList";
+        return bidService.fetchConstructionList();
     }
 }
