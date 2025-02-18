@@ -1,5 +1,6 @@
 package kdd.toy.easynaramarket.bid.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import kdd.toy.easynaramarket.bid.dto.BidApiResponse;
 import kdd.toy.easynaramarket.bid.service.BidService;
 import lombok.RequiredArgsConstructor;
@@ -19,5 +20,10 @@ public class BidController {
     @GetMapping("/getBidList")
     public List<BidApiResponse.Item> getBidList() {
         return bidService.fetchConstructionList();
+    }
+
+    @GetMapping("/getBidDetail")
+    public String getBidDetail() throws JsonProcessingException {
+        return bidService.FetchBidDetail("20191243276", "000");
     }
 }

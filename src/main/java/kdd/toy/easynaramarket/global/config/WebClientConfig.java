@@ -22,4 +22,12 @@ public class WebClientConfig {
                 .uriBuilderFactory(factory)
                 .build();
     }
+
+    @Bean
+    public WebClient webClient2() {
+
+        return WebClient.builder()
+                .baseUrl("https://www.g2b.go.kr")
+                .build();
+    }
 }
