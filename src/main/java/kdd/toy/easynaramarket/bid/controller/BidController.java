@@ -1,6 +1,6 @@
 package kdd.toy.easynaramarket.bid.controller;
 
-import kdd.toy.easynaramarket.bid.dto.BidResponseDto;
+import kdd.toy.easynaramarket.bid.dto.BidApiResponse;
 import kdd.toy.easynaramarket.bid.service.BidService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +17,7 @@ public class BidController {
     private final BidService bidService;
 
     @GetMapping("/getBidList")
-    public List<BidResponseDto> getBidList() {
+    public List<BidApiResponse.Item> getBidList() {
         return bidService.fetchConstructionList();
     }
 }
