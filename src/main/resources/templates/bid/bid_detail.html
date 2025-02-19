@@ -1,1 +1,20 @@
-<p>detail page</p>
+<html layout:decorate="~{global/layout}">
+
+<div layout:fragment="content" class="p-2">
+    <div class="text-2xl mb-20">
+        공고 상세
+    </div>
+    <div class="btn mb-10">
+        <a class="text-bold text-xl italic" th:href="@{https://www.g2b.go.kr/link/PNPE027_01/single(bidPbancNo=${bidNtceNo}, bidPbancOrd=${bidNtceOrd})}" target="_blank">나라장터 공고 상세 페이지 URL(이동)</a>
+    </div>
+    <div class="text-2xl">
+    Json 형태로 얻은 나라장터 입찰 공고 상세 데이터를 그대로 첨부했습니다.<br/>추후 파싱 예정입니다.
+    </div>
+
+    <div class="card bg-base-100 w-auto shadow-xl mt-10" style="background-color: rgba(0, 0, 0, 0.05);">
+        <div class="card-body">
+            <p th:text="${bidData}" class="break-words"></p>
+        </div>
+    </div>
+</div>
+</html>

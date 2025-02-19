@@ -1,5 +1,6 @@
 package kdd.toy.easynaramarket.bid.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import kdd.toy.easynaramarket.bid.dto.BidApiResponse;
 import kdd.toy.easynaramarket.bid.service.BidService;
 import lombok.RequiredArgsConstructor;
@@ -16,17 +17,20 @@ public class ViewController {
 
     private final BidService bidService;
 
-    @GetMapping("/list")
-    public String showList(Model model) {
-        return "bid/bid_list";
-    }
-
     @GetMapping("/detail")
-    public String showDetail() {
+    public String showDetail(
+            @RequestParam(value = "bidNtceNo") String bidNtceNo,
+            @RequestParam(value = "bidNtceOrd", defaultValue = "000") String bidNtceOrd,
+            Model model
+    ) throws JsonProcessingException {
+        String bidDetailData = bidService.FetchBidDetail(bidNtceNo, bidNtceOrd);
+        model.addAttribute("bidData", bidDetailData);
+        model.addAttribute("bidNtceNo", bidNtceNo);
+        model.addAttribute("bidNtceOrd", bidNtceOrd);
         return "bid/bid_detail";
     }
 
-    @GetMapping("/getBidList")
+    @GetMapping("/list")
     public String bidList(
             @RequestParam(value = "bgDt", defaultValue = "202502180000") String bgDt,
             @RequestParam(value = "edDt", defaultValue = "202502182359") String edDt,

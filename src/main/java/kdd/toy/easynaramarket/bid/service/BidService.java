@@ -75,10 +75,6 @@ public class BidService {
                 )
         );
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        String requestBodyJson = objectMapper.writeValueAsString(requestBody);
-
-        System.out.println(requestBodyJson);
 
         String response = webClient2.post()
                 .uri("/pn/pnp/pnpe/facilBidPbac/selectFacilAnncMngV.do")
