@@ -31,16 +31,16 @@ public class BidService {
     }
 
     //입찰공고(공사) 목록 조회
-    public List<BidApiResponse.Item> fetchConstructionList() {
+    public List<BidApiResponse.Item> fetchConstructionList(String bgDt, String edDt, int pageNo) {
 
         //uri 생성
         String uri = UriComponentsBuilder.fromPath("/getBidPblancListInfoCnstwk")
                 .queryParam("serviceKey", encodedKey)
-                .queryParam("pageNo", "2")
-                .queryParam("numOfRows", "10")
+                .queryParam("pageNo", String.valueOf(pageNo))
+                .queryParam("numOfRows", "25")
                 .queryParam("inqryDiv", "1")
-                .queryParam("inqryBgnDt", "202001010000")
-                .queryParam("inqryEndDt", "202001302359")
+                .queryParam("inqryBgnDt", bgDt)
+                .queryParam("inqryEndDt", edDt)
                 .queryParam("type", "json")
                 .build(true)
                 .toUriString();

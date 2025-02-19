@@ -1,0 +1,78 @@
+<html layout:decorate="~{global/layout}">
+
+<div layout:fragment="content" class="p-2">
+
+    <div class="p-2">
+        <form id="searchForm" th:action="@{/getBidList}" method="get">
+            <input
+                    type="text"
+                    placeholder="YYYYMMDD(8자리)"
+                    th:value="${#strings.substring(bgDt, 0, 8)}"
+                    name="bgDt"
+                    class="input input-bordered input-sm w-full max-w-xs"/>
+            부터
+            <input
+                    type="text"
+                    placeholder="YYYYMMDD(8자리)"
+                    th:value="${#strings.substring(edDt, 0, 8)}"
+                    name="edDt"
+                    class="input input-bordered input-sm w-full max-w-xs"/>
+            까지
+            <button type="submit" class="btn btn-sm">검색</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+            // bgDt와 edDt 값을 가져옴
+            var bgDtInput = document.getElementsByName('bgDt')[0];
+            var edDtInput = document.getElementsByName('edDt')[0];
+
+            // 입력값에 "0000"과 "2359"를 자동으로 추가
+            bgDtInput.value += "0000";
+            edDtInput.value += "2359";
+        });
+    </script>
+
+    <table class="table-auto w-full bg-white shadow-md rounded-lg">
+        <thead>
+        <tr class="bg-gray-200 text-left">
+            <th class="border border-gray-300 px-4 py-2">입찰공고번호</th>
+            <th class="border border-gray-300 px-4 py-2">상세</th>
+            <th class="border border-gray-300 px-4 py-2">공고명</th>
+            <th class="border border-gray-300 px-4 py-2">게시일시</th>
+            <th class="border border-gray-300 px-4 py-2">마감일시</th>
+            <th class="border border-gray-300 px-4 py-2">공고기관</th>
+            <th class="border border-gray-300 px-4 py-2">수요기관</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="bid : ${bidList}">
+            <td class="border border-gray-300 px-4 py-2" th:text="${bid.bidNtceNo}">입찰공고번호</td>
+            <td class="border border-gray-300 px-4 py-2" th:text="${bid.bidNtceOrd}">입찰공고번호 상세</td>
+            <td class="border border-gray-300 px-4 py-2" th:text="${bid.bidNtceNm}">공고명</td>
+            <td class="border border-gray-300 px-4 py-2" th:text="${bid.bidNtceDt}">게시일시</td>
+            <td class="border border-gray-300 px-4 py-2" th:text="${bid.bidClseDt}">마감일시</td>
+            <td class="border border-gray-300 px-4 py-2" th:text="${bid.ntceInsttNm}">공고기관</td>
+            <td class="border border-gray-300 px-4 py-2" th:text="${bid.dminsttNm}">수요기관</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="flex justify-center items-center gap-2">
+        <div class="flex justify-center items-center gap-2">
+            <div class="join p-6">
+                <a class="join-item btn" th:if="${currentPage} > 1" th:href="@{/getBidList(bgDt=${bgDt}, edDt=${edDt}, pageNo=${currentPage - 1})}">«</a>
+                <form action="#" th:action="@{/getBidList(bgDt=${bgDt}, edDt=${edDt}, pageNo=${currentPage})}" method="get">
+                    <input type="hidden" name="bgDt" th:value="${bgDt}" />
+                    <input type="hidden" name="edDt" th:value="${edDt}" />
+                    <input type="number" name="pageNo" th:value="${currentPage}" class="input input-bordered w-20 text-center" min="1"/>
+                    <button type="submit" class="join-item btn">이동</button>
+                </form>
+                <a class="join-item btn"
+                   th:href="@{/getBidList(bgDt=${bgDt}, edDt=${edDt}, pageNo=${currentPage + 1})}">»</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>
