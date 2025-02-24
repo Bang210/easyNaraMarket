@@ -22,6 +22,10 @@ configurations {
 repositories {
     mavenCentral()
 }
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs << '-parameters'
+}
+
 
 dependencies {
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'

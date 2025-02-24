@@ -17,6 +17,11 @@ public class ViewController {
 
     private final BidService bidService;
 
+    @GetMapping("")
+    public String showMain() {
+        return "main";
+    }
+
     @GetMapping("/detail")
     public String showDetail(
             @RequestParam(value = "bidNtceNo") String bidNtceNo,

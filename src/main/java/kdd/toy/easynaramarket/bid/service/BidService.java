@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kdd.toy.easynaramarket.bid.dto.BidApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -16,11 +18,18 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class BidService {
 
     private final WebClient webClient;
+
     private final WebClient webClient2;
+
+    @Autowired
+    public BidService(@Qualifier("webClient1") WebClient webClient1,
+                      @Qualifier("webClient2") WebClient webClient2) {
+        this.webClient = webClient1;
+        this.webClient2 = webClient2;
+    }
 
     //외부 사용자도 기능테스트를 해볼 수 있도록 서비스키를 공개함
     private String decodedKey = "oVDbi/b97nK+x24paydGSPkBoGyC9qx4m33hq6TgeraM3xFMkP25s2xEUQ6EK/ngi0AFx8r/yT88EBAIV1lxuA==";
