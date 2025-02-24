@@ -1,5 +1,5 @@
 # EasyNaraMarket 프로젝트
-[https://enm.jinsol.my/list](배포 주소)
+[https://enm.jinsol.my/list] (배포 주소)
 ## 프로젝트 개요
 국가 입찰공고 시스템인 ‘나라장터’는 내부 자바스크립트와 POST요청으로 데이터 를 조작합니다. 
 따라서 일반 사용자들이 입찰공고 관련 데이터를 공유/수집하는 데에는 어려움이 따릅니다.
