@@ -23,8 +23,8 @@ public class BidController {
     public List<BidApiResponse.Item> getBidList(
             @RequestParam(value = "bgDt", defaultValue = "202502180000") String bgDt,
             @RequestParam(value = "edDt", defaultValue = "202502182359") String edDt,
-            @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
-        return bidService.fetchConstructionList(bgDt,edDt, pageNo);
+            @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) throws JsonProcessingException {
+        return bidService.fetchConstructionList(bgDt,edDt, pageNo, "cnstwk");
     }
 
     @GetMapping("/getBidDetail")

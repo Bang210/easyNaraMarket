@@ -40,11 +40,12 @@ public class ViewController {
             @RequestParam(value = "bgDt", defaultValue = "202502180000") String bgDt,
             @RequestParam(value = "edDt", defaultValue = "202502182359") String edDt,
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-            Model model) {
+            @RequestParam(value="bidType", defaultValue = "cnstwk") String bidType,
+            Model model) throws JsonProcessingException {
         if (pageNo < 1) {
             pageNo = 1;
         }
-        List<BidApiResponse.Item> bidList = bidService.fetchConstructionList(bgDt,edDt, pageNo);
+        List<BidApiResponse.Item> bidList = bidService.fetchConstructionList(bgDt,edDt, pageNo, bidType);
         model.addAttribute("bidList", bidList);
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("bgDt", bgDt);

@@ -40,10 +40,20 @@ public class BidService {
     }
 
     //입찰공고(공사) 목록 조회
-    public List<BidApiResponse.Item> fetchConstructionList(String bgDt, String edDt, int pageNo) {
+    public List<BidApiResponse.Item> fetchConstructionList(String bgDt, String edDt, int pageNo, String bidType) throws JsonProcessingException {
+
+        String path = "/getBidPblancListInfoCnstwk";
+
+        if (bidType.equals("servc")) {
+            path = "/getBidPblancListInfoServc";
+        } else if (bidType.equals("frgcpt")) {
+            path = "/getBidPblancListInfoFrgcpt";
+        } else if (bidType.equals("thng")) {
+            path = "/getBidPblancListInfoThng";
+        }
 
         //uri 생성
-        String uri = UriComponentsBuilder.fromPath("/getBidPblancListInfoCnstwk")
+        String uri = UriComponentsBuilder.fromPath(path)
                 .queryParam("serviceKey", encodedKey)
                 .queryParam("pageNo", String.valueOf(pageNo))
                 .queryParam("numOfRows", "25")

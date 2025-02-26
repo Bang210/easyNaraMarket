@@ -3,7 +3,7 @@
 <div layout:fragment="content" class="p-2">
 
     <div class="p-2">
-        <form id="searchForm" th:action="@{/getBidList}" method="get">
+        <form id="searchForm" th:action="@{/list}" method="get">
             <input
                     type="text"
                     placeholder="YYYYMMDD(8자리)"
@@ -23,9 +23,23 @@
     </div>
 
     <script>
-        document.getElementById('searchForm').addEventListener('submit', function (event) {
-            var bgDtInput = document.getElementsByName('bgDt')[0];
-            var edDtInput = document.getElementsByName('edDt')[0];
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bidType = urlParams.get("bidType");
+
+            if (bidType) {
+                // hidden input 추가
+                const hiddenInput = document.createElement("input");
+                hiddenInput.type = "hidden";
+                hiddenInput.name = "bidType";
+                hiddenInput.value = bidType;
+                document.getElementById("searchForm").appendChild(hiddenInput);
+            }
+        });
+
+        document.getElementById("searchForm").addEventListener("submit", function (event) {
+            var bgDtInput = document.getElementsByName("bgDt")[0];
+            var edDtInput = document.getElementsByName("edDt")[0];
 
             bgDtInput.value += "0000";
             edDtInput.value += "2359";
@@ -61,17 +75,46 @@
     <div class="flex justify-center items-center gap-2">
         <div class="flex justify-center items-center gap-2">
             <div class="join p-6">
-                <a class="join-item btn" th:if="${currentPage} > 1" th:href="@{/list(bgDt=${bgDt}, edDt=${edDt}, pageNo=${currentPage - 1})}">«</a>
-                <form action="#" th:action="@{/list(bgDt=${bgDt}, edDt=${edDt}, pageNo=${currentPage})}" method="get">
+                <!-- 이전 페이지 버튼 -->
+                <a id="prevPage" class="join-item btn" th:if="${currentPage} > 1"
+                   th:href="@{/list(bgDt=${bgDt}, edDt=${edDt}, pageNo=${currentPage - 1})}">«</a>
+
+                <!-- 페이지 번호 입력 폼 -->
+                <form id="paginationForm" action="#" th:action="@{/list}" method="get">
                     <input type="hidden" name="bgDt" th:value="${bgDt}" />
                     <input type="hidden" name="edDt" th:value="${edDt}" />
+                    <input type="hidden" id="bidTypeInput" name="bidType" value="" /> <!-- bidType 유지 -->
                     <input type="number" name="pageNo" th:value="${currentPage}" class="input input-bordered w-20 text-center" min="1"/>
                     <button type="submit" class="join-item btn">이동</button>
                 </form>
-                <a class="join-item btn"
+
+                <!-- 다음 페이지 버튼 -->
+                <a id="nextPage" class="join-item btn"
                    th:href="@{/list(bgDt=${bgDt}, edDt=${edDt}, pageNo=${currentPage + 1})}">»</a>
             </div>
         </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                const bidType = urlParams.get("bidType");
+
+                if (bidType) {
+                    // bidType 값을 hidden input에 설정
+                    document.getElementById("bidTypeInput").value = bidType;
+
+                    // 이전/다음 페이지 버튼에도 bidType 추가
+                    ["prevPage", "nextPage"].forEach(id => {
+                        const btn = document.getElementById(id);
+                        if (btn) {
+                            const url = new URL(btn.href);
+                            url.searchParams.set("bidType", bidType);
+                            btn.href = url.toString();
+                        }
+                    });
+                }
+            });
+        </script>
     </div>
 </div>
 
