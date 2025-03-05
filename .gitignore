@@ -38,3 +38,5 @@ out/
 
 ### Custom ###
 /src/main/resources/application-secret.yml
+enm_dev.mv.db
+enm_dev.trace.db
