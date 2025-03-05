@@ -91,7 +91,6 @@ public class BidService {
                 )
         );
 
-
         String response = webClient2.post()
                 .uri("/pn/pnp/pnpe/facilBidPbac/selectFacilAnncMngV.do")
                 .contentType(MediaType.APPLICATION_JSON)
