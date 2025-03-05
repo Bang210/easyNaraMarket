@@ -6,6 +6,7 @@ import kdd.toy.easynaramarket.bid.dto.BidApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -23,21 +24,17 @@ public class BidService {
     private final WebClient webClient;
 
     private final WebClient webClient2;
+    private final String encodedKey;
 
     @Autowired
     public BidService(@Qualifier("webClient1") WebClient webClient1,
-                      @Qualifier("webClient2") WebClient webClient2) {
+                      @Qualifier("webClient2") WebClient webClient2,
+                      @Value("${custom.decodedKey}") String decodedKey) {
         this.webClient = webClient1;
         this.webClient2 = webClient2;
+        this.encodedKey = URLEncoder.encode(decodedKey, StandardCharsets.UTF_8);
     }
 
-    //외부 사용자도 기능테스트를 해볼 수 있도록 서비스키를 공개함
-    private String decodedKey = "oVDbi/b97nK+x24paydGSPkBoGyC9qx4m33hq6TgeraM3xFMkP25s2xEUQ6EK/ngi0AFx8r/yT88EBAIV1lxuA==";
-    private String encodedKey;
-
-    {
-        encodedKey = URLEncoder.encode(decodedKey, StandardCharsets.UTF_8);
-    }
 
     //입찰공고(공사) 목록 조회
     public List<BidApiResponse.Item> fetchConstructionList(String bgDt, String edDt, int pageNo, String bidType) throws JsonProcessingException {
@@ -102,8 +99,6 @@ public class BidService {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-
-        System.out.println(response);
 
         return response;
     }
